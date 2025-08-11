@@ -6,10 +6,11 @@
 
 class PlayerShip {
 public:
-    PlayerShip(SDL_Texture* shipTex, int x, int y, int size);
+    PlayerShip(SDL_Texture* shipTex, int x, int y, int size, int texW = 0, int texH = 0);
 
     void update(float mouseX, float mouseY, float dt);
-    void handle_input(const bool* keystate);
+    void handle_input(const bool* keystate, float dt);
+
     void draw(SDL_Renderer* renderer);
 
     // Disparo
@@ -20,13 +21,13 @@ public:
     const std::vector<std::unique_ptr<Projectile>>& getProjectiles() const { return bullets; }
 
     // Utilidades
-    int   getX() const { return center.x; }
-    int   getY() const { return center.y; }
+    float   getX() const { return posX; }
+    float   getY() const { return posY; }
     float getAngle() const { return angle; }
 
 private:
     // Nave
-    SDL_Point center;
+    float posX, posY;
     int size;
     float angle;
     float vx{0}, vy{0};
@@ -43,4 +44,6 @@ private:
     void spawnBullet(int winW, int winH);
     void updateBullets(float dt, int winW, int winH);
     void drawBullets(SDL_Renderer* r);
+    int texW_ = 0;
+    int texH_ = 0;
 };

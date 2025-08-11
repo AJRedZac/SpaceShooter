@@ -15,6 +15,7 @@ public:
                int size_px,           // diámetro/alto visual aprox
                int winW, int winH,
                float maxAge_s = 3.0f  // vida útil máxima
+               
     );
 
     // Actualiza posición/vida. dt en segundos.
@@ -41,6 +42,8 @@ protected:
     bool  alive_{true};
     float age_{0.0f}, maxAge_{3.0f};
     int   winW_, winH_;
+    
+    
 };
 
 /// Ejemplo de subclase: bala básica (si luego quieres balas con humo, misiles, etc.)

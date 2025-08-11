@@ -27,7 +27,7 @@ int main(int, char**) {
     SDL_Renderer* renderer = SDL_CreateRenderer(window, nullptr);
     if (!renderer) { std::cerr << SDL_GetError() << "\n"; SDL_DestroyWindow(window); SDL_Quit(); return 1; }
 
-    // Cargar sprite de la nave (ejecutando desde bin/ → subir un nivel)
+        // Cargar sprite de la nave
     SDL_Texture* shipTex = IMG_LoadTexture(renderer, "../sprites/ship.png");
     if (!shipTex) shipTex = IMG_LoadTexture(renderer, "sprites/ship.png");
     if (!shipTex) {
@@ -52,9 +52,15 @@ int main(int, char**) {
         return 1;
     }
 
+    // Configurar blend
+    SDL_SetTextureBlendMode(bulletTex, SDL_BLENDMODE_BLEND);
 
-    PlayerShip player(shipTex, WIN_W/2, WIN_H/2, 32);
+    // Obtener tamaño de sprite nave y crear nave
+    float shipW = 0, shipH = 0;
+    SDL_GetTextureSize(shipTex, &shipW, &shipH);
+    PlayerShip player(shipTex, WIN_W/2, WIN_H/2, 32, (int)shipW, (int)shipH);
     player.setBulletTexture(bulletTex);
+
 
     bool running = true;
     SDL_Event ev;
@@ -83,7 +89,7 @@ int main(int, char**) {
         player.update(mx, my, dt);
 
         const bool* keys = SDL_GetKeyboardState(nullptr);
-        player.handle_input(keys);
+        player.handle_input(keys, dt);
 
         // Render
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
