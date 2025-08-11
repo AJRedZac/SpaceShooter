@@ -10,40 +10,38 @@ public:
 
     void update(float mouseX, float mouseY, float dt);
     void handle_input(const bool* keystate, float dt);
-
     void draw(SDL_Renderer* renderer);
-
-    // Disparo
-    void setFiring(bool on);            // mouse down/up
-    void setBulletTexture(SDL_Texture* tex);  // asigna textura de bala
-
-    // Exponer proyectiles para colisiones externas (solo lectura)
+    void setFireRate(float shotsPerSecond);
+    void setFiring(bool on);
+    void setBulletTexture(SDL_Texture* tex);
     const std::vector<std::unique_ptr<Projectile>>& getProjectiles() const { return bullets; }
 
-    // Utilidades
-    float   getX() const { return posX; }
-    float   getY() const { return posY; }
+    float getX() const { return posX; }
+    float getY() const { return posY; }
     float getAngle() const { return angle; }
-
+    int getHP() const { return hp; }
+    int getMaxHP() const { return maxHp; }
+    
 private:
-    // Nave
     float posX, posY;
+    int hp{100};
+    int maxHp{100};
+    float targetX = 0.0f, targetY = 0.0f;
     int size;
     float angle;
     float vx{0}, vy{0};
     SDL_Texture* tex{nullptr};
 
-    // Proyectiles
     std::vector<std::unique_ptr<Projectile>> bullets;
     SDL_Texture* bulletTex{nullptr};
     bool firing{false};
-    float fireCd{0.0f};             // cooldown actual
-    float fireInterval{0.10f};      // seg entre disparos (10/s)
+    float fireCd{0.0f};
+    float fireInterval{1.0f};
 
-    // Helpers
     void spawnBullet(int winW, int winH);
     void updateBullets(float dt, int winW, int winH);
     void drawBullets(SDL_Renderer* r);
+
     int texW_ = 0;
     int texH_ = 0;
 };
