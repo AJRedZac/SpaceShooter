@@ -1,4 +1,7 @@
 /include
 /lib
+/cmake
+/pkgconfig
 /licenses
 /bin
+/sprites
